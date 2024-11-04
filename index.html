@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSIM Myanmar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">eSIM Myanmar</div>
+            <button class="menu-button" onclick="toggleDropdown()" aria-label="Menu Button" aria-haspopup="true" aria-expanded="false">☰</button>
+            <div class="dropdown" id="dropdownMenu">
+                <a href="#">Profile</a>
+                <a href="#">Settings</a>
+                <a href="#">Logout</a>
+            </div>
+        </header>
+
+        <div class="profile-card">
+            <h3>eSIM Profile</h3>
+            <div class="qr-code">
+                <img src="path/to/your/qr-code.png" alt="eSIM QR Code" loading="lazy">
+            </div>
+            <p>Phone: <strong>0912345678</strong></p>
+            <button class="action-button" onclick="vibrateAndOpenProfileModal()">View Profile Details</button>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-button" onclick="vibrateAndOpenModal()">eSIM Setup</button>
+            <button class="action-button" onclick="vibrateAndOpenShareModal()">Share QR</button>
+        </div>
+
+        <footer>
+            <a href="#" class="footer-link help-button" onclick="vibrateAndOpenHelpModal()">Help</a>
+        </footer>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <p style="font-size: 0.75rem; color: #00FFFF;">© Copyright eSIM Myanmar 2024. All rights reserved.</p>
+    </div>
+
+    <!-- eSIM Setup Modal -->
+    <div id="eSIMModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>eSIM Setup</h2>
+            <div class="qr-code">
+                <img src="path/to/your/qr-code.png" alt="eSIM QR Code for Setup" loading="lazy">
+            </div>
+            <p><strong>Note:</strong> You should keep the QR code for future use.</p>
+            <p><strong>How to use the QR code:</strong></p>
+            <ol style="text-align: left; margin: 0 auto; display: inline-block;">
+                <li>Go to <strong>Settings</strong> > <strong>Cellular/Mobile Data</strong></li>
+                <li>Choose <strong>Add eSIM</strong></li>
+                <li>Choose <strong>Scan the QR code</strong></li>
+                <li>Continue and wait for installation.</li>
+            </ol>
+            <p>To easily install your eSIM, click the button below:</p>
+            <button class="action-button" onclick="confirmAction()">Install eSIM</button>
+        </div>
+    </div>
+
+    <!-- Profile Details Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2 style="font-size: 16px;">eSIM Profile Details</h2>
+            <div class="profile-detail" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>ID</h4>
+                <p>Abc1234</p>
+            </div>
+            <div class="profile-detail" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Phone</h4>
+                <p>0912345678</p>
+            </div>
+            <div class="profile-detail" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Confirmation Code</h4>
+                <div style="display: flex; align-items: center;">
+                    <p id="confirmationCode" style="margin-right: 10px;">414693</p>
+                    <button onclick="copyToClipboard('confirmationCode')" style="background-color: #00CED1; color: #0A0E1F; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 12px;">Copy</button>
+                </div>
+            </div>
+            <div class="profile-detail" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>ICCID</h4>
+                <p>8981440039981143758</p>
+            </div>
+            <div class="profile-detail" style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>LPA</h4>
+                <p>LPA:1$rsp-eu.redteamobile.com$4DE55CC37A9C471CB44EDAEA173DEC66</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share QR Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShareModal()">&times;</span>
+            <h2>Install eSIM</h2>
+            <p>To easily install your eSIM, click the button below:</p>
+            <button class="action-button" onclick="window.open('https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=LPA:1$rsp-eu.redteamobile.com$4DE55CC37A9C471CB44EDAEA173DEC66', '_blank')">Install eSIM</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelpModal()">&times;</span>
+            <h2>Contact Support</h2>
+            <p>Select a method to get help:</p>
+            <div class="share-option" onclick="contactSupport('phone')">Call Support</div>
+            <div class="share-option" onclick="contactSupport('viber')">Contact via Viber</div>
+            <div class="share-option" onclick="contactSupport('messenger')">Message on Messenger</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-button')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+            // Close modals when clicking outside
+            if (event.target == document.getElementById("shareModal")) {
+                closeShareModal();
+            } else if (event.target == document.getElementById("helpModal")) {
+                closeHelpModal();
+            } else if (event.target == document.getElementById("eSIMModal")) {
+                closeModal();
+            } else if (event.target == document.getElementById("profileModal")) {
+                closeProfileModal();
+            }
+        };
+
+        function vibrateAndOpenProfileModal() {
+            vibrate();
+            openProfileModal();
+        }
+
+        function vibrateAndOpenModal() {
+            vibrate();
+            openModal();
+        }
+
+        function vibrateAndOpenShareModal() {
+            vibrate();
+            openShareModal();
+        }
+
+        function vibrateAndOpenHelpModal() {
+            vibrate();
+            openHelpModal();
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(100); // Vibrate for 100 milliseconds
+            }
+        }
+
+        function openProfileModal() {
+            document.getElementById("profileModal").style.display = "block";
+        }
+
+        function closeProfileModal() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
+        function openModal() {
+            document.getElementById("eSIMModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("eSIMModal").style.display = "none";
+        }
+
+        function confirmAction() {
+            alert("eSIM installation initiated!");
+            closeModal();
+        }
+
+        function openShareModal() {
+            document.getElementById("shareModal").style.display = "block";
+        }
+
+        function closeShareModal() {
+            document.getElementById("shareModal").style.display = "none";
+        }
+
+        function openHelpModal() {
+            document.getElementById("helpModal").style.display = "block";
+        }
+
+        function closeHelpModal() {
+            document.getElementById("helpModal").style.display = "none";
+        }
+
+        function contactSupport(method) {
+            switch (method) {
+                case 'phone':
+                    alert("Dialing support phone number...");
+                    break;
+                case 'viber':
+                    alert("Opening Viber...");
+                    break;
+                case 'messenger':
+                    alert("Opening Messenger...");
+                    break;
+            }
+            closeHelpModal();
+        }
+
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied: ' + text);
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
